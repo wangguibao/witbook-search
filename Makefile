@@ -1,4 +1,4 @@
 DEST = geninvert
-CPPFLAGS = -g -ggdb -Wall
+CPPFLAGS = --std=c++11 -g -ggdb -Wall
 
 geninvert: geninvert.cpp

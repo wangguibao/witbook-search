@@ -9,6 +9,7 @@
 #include <cstring>
 #include <cstdio>
 #include <ctime>
+#include <stdint.h>
 
 const int MAX_OFFSET = 5;
 const int MAX_RECORD = 100;
@@ -55,6 +56,15 @@ int select_utf8_char(std::ifstream &fs, int file_size, char *p, int term_len)
     return len;
 }
 
+unsigned int creat_sign(char *str, int len) {
+    uint64_t sign = 0;
+    for (int i = 0; i < len; ++i) {
+        sign += (sign * 0x1331) + str[i];
+    }
+
+    return sign;
+}
+
 int main(int argc, char **argv)
 {
     if (argc != 4) {
@@ -98,25 +108,31 @@ int main(int argc, char **argv)
         *p = '\t';
         ++p;
 
-        // 2. urlno
+        // 2. termsign
+        snprintf(p, BUF_LEN - (p - record), "%u", creat_sign(record, p - record));
+        p += strlen(p);
+        *p = '\t';
+        ++p;
+
+        // 3. urlno
         snprintf(p, BUF_LEN - (p - record), "%u", rand() % url_num);
         p += strlen(p);
         *p = '\t';
         ++p;
 
-        // 3. weight
+        // 4. weight
         snprintf(p, BUF_LEN - (p - record), "%u", rand() % 0xffff);
         p += strlen(p);
         *p = '\t';
         ++p;
 
-        // 4. attribute
+        // 5. attribute
         snprintf(p, BUF_LEN - (p - record), "%u", rand() % 0xff);
         p += strlen(p);
         *p = '\t';
         ++p;
 
-        // 5. pos & offset list
+        // 6. pos & offset list
         int offset_size = rand() % 0xff;
         for (j = 0; j < offset_size && (p - record < BUF_LEN - 32); ++j) {
             snprintf(p, BUF_LEN - (p - record), "%u:%u|", rand() % 4, rand() % 0x3fff);
@@ -128,5 +144,6 @@ int main(int argc, char **argv)
         std::cout << record << std::endl;
     }
 
+    return 0;
 }
 
