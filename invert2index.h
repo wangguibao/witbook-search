@@ -1,5 +1,5 @@
-#ifndef INVERT2FILE_H_INCLUDED
-#define INVERT2FILE_H_INCLUDED
+#ifndef INVERTTOINDEX_H_INCLDED
+#define INVERTTOINDEX_H_INCLUDED
 #include <stdint.h>
 #include <map>
 #include <vector>
@@ -66,4 +66,4 @@ const int INVERT_INDEX_UNIT_SIZE = sizeof(Level2IndexHeader)
                                     + sizeof(CountList)
                                     + sizeof(OffsetList);
 
-#endif // INVERT2FILE_H_INCLUDED
+#endif // INVERTTOINDEX_H_INCLUDED

@@ -1,7 +1,7 @@
 /*
- * invert2file.cpp
+ * invert2ind2.cpp
  * @author Wang Guibao
- * @brief Convert invert index to disk format
+ * @brief Convert invert index to level2 disk format
  *
  * Assuming input format:
  * term \t termsign \t urlno \t weight \t attribute \t pos:offset|pos:offset|...
@@ -12,7 +12,7 @@
 #include <fstream>
 #include <algorithm>
 #include <cstring>
-#include "invert2file.h"
+#include "invert2index.h"
 
 char invert_index_unit_buf[INVERT_INDEX_UNIT_SIZE];
 
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
 
     char term[TERM_LEN];
     std::ofstream of("ind2.0", std::ios::out);
-#if 0
+#if 1
     // 1. Read in individual invert record
     while (!feof(stdin)) {
 #else
