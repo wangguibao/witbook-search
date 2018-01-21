@@ -6,7 +6,7 @@
 
 const int TERM_LEN = 128 * 3;
 const int MAX_OFFSET = 255;
-const int MAX_URL_PER_TERM = 100;
+const int MAX_URL_PER_TERM = 100000;
 
 typedef struct PosOffset {
     uint16_t pos:2;
@@ -15,15 +15,15 @@ typedef struct PosOffset {
 
 typedef struct Invert {
     uint32_t urlno;
-    uint8_t weight;
+    uint16_t weight;
     uint8_t attribute;
     uint8_t offset_count;
-    PosOffset post_offset[MAX_OFFSET];
+    PosOffset pos_offset[MAX_OFFSET];
 } Invert;
 
 typedef std::map<uint64_t, std::vector<Invert> > InvertIndex;
 
-typedef struct _Level2IndexHeader {
+typedef struct _Level2IndexBlockHeader {
     uint8_t url_compressed:1;
     uint8_t weight_attribute_compressed:1;
     uint8_t count_all_one:1;
@@ -31,7 +31,7 @@ typedef struct _Level2IndexHeader {
     uint8_t offset_all_zero:1;
     uint8_t offset_compressed:1;
     uint8_t padding:2;
-} Level2IndexHeader;
+} Level2IndexBlockHeader;
 
 typedef uint32_t urlno_t;
 typedef uint16_t weight_t;
@@ -39,7 +39,7 @@ typedef uint8_t attribute_t;
 typedef uint8_t count_t;
 
 typedef struct _UrlnoList {
-    urlno_t url[MAX_URL_PER_TERM];
+    urlno_t urlno[MAX_URL_PER_TERM];
 } UrlnoList;
 
 typedef struct _WeightList {
@@ -58,7 +58,7 @@ typedef struct _OffsetList {
     PosOffset offset[MAX_URL_PER_TERM * MAX_OFFSET];
 } OffsetList;
 
-const int INVERT_INDEX_UNIT_SIZE = sizeof(Level2IndexHeader)
+const int INVERT_INDEX_UNIT_SIZE = sizeof(Level2IndexBlockHeader)
                                     + sizeof(uint32_t)
                                     + sizeof(UrlnoList)
                                     + sizeof(WeightList)

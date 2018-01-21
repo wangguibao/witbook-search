@@ -34,23 +34,25 @@ void gen_utf8_char(char *p)
 
 int select_utf8_char(std::ifstream &fs, int file_size, char *p, int term_len)
 {
-    int pos = rand() % file_size;
-    fs.seekg(pos);
-    unsigned char c = 0;
-    while (!fs.eof() && ((c = fs.get()) < 0xe0 || c > 0xef)) {
-        ;
-    }
-
     int len = 0;
     for (int i = 0; i < term_len; ++i) {
+        int pos = rand() % file_size;
+        fs.seekg(pos);
+        unsigned char c = fs.get();
+
+        while (c < 0xe0 || c > 0xef) {
+            c = fs.get();
+            if (c == 0xff) {
+                fs.clear();
+                pos = rand() % file_size;
+                fs.seekg(pos);
+            }
+        }
+
         *(p + 3 * i) = c;
         *(p + 3 * i + 1) = fs.get();
         *(p + 3 * i + 2) = fs.get();
         len += 3;
-
-        while (!fs.eof() && ((c = fs.get()) < 0xe0 || c > 0xef)) {
-            ;
-        }
     }
 
     return len;
@@ -133,7 +135,7 @@ int main(int argc, char **argv)
         ++p;
 
         // 6. pos & offset list
-        int offset_size = rand() % 0xff;
+        int offset_size = rand() % 0xff + 1;
         for (j = 0; j < offset_size && (p - record < BUF_LEN - 32); ++j) {
             snprintf(p, BUF_LEN - (p - record), "%u:%u|", rand() % 4, rand() % 0x3fff);
             p +=strlen(p);
