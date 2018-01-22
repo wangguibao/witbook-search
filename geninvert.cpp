@@ -10,27 +10,13 @@
 #include <cstdio>
 #include <ctime>
 #include <stdint.h>
+#include "util.h"
 
 const int MAX_OFFSET = 5;
 const int MAX_RECORD = 100;
 const int MAX_URL_NUM = 15;
 const int MAX_TERM_LEN = 3;
 const int BUF_LEN = 1024;
-
-/**
- * Generate a utf-8 character
- * The rule is:
- * 1) randomly select a char-code between 0x4e00 - 0x9fa5
- * 2) Apply the bits to bellow 3-byte sequence
- * 0b1110xxxx 0b10xxxxxx 0b10xxxxxx
- */
-void gen_utf8_char(char *p)
-{
-    int charcode = rand() % (0x9fa5 - 0x4e00) + 0x4e00;
-    *p = static_cast<char>(0xe0 | (charcode >> 12));
-    *(p + 1) = static_cast<char>(0x80 | ((charcode >> 6) & 0x3f));
-    *(p + 2) = static_cast<char>(0x80 | (charcode & 0x3f));
-}
 
 int select_utf8_char(std::ifstream &fs, int file_size, char *p, int term_len)
 {
@@ -56,15 +42,6 @@ int select_utf8_char(std::ifstream &fs, int file_size, char *p, int term_len)
     }
 
     return len;
-}
-
-unsigned int creat_sign(char *str, int len) {
-    uint64_t sign = 0;
-    for (int i = 0; i < len; ++i) {
-        sign += (sign * 0x1331) + str[i];
-    }
-
-    return sign;
 }
 
 int main(int argc, char **argv)
@@ -111,7 +88,7 @@ int main(int argc, char **argv)
         ++p;
 
         // 2. termsign
-        snprintf(p, BUF_LEN - (p - record), "%u", creat_sign(record, p - record));
+        snprintf(p, BUF_LEN - (p - record), "%lu", creat_sign(record, p - record));
         p += strlen(p);
         *p = '\t';
         ++p;

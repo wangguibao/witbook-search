@@ -1,11 +1,39 @@
 #include <iostream>
 #include <fstream>
-#include "invert2index.h"
+#include "index.h"
+
+const int FILE_NAME_LEN = 255;
 
 int main(int argc, char **argv)
 {
-    FILE *file = fopen(argv[1], "rb");
+    if (argc != 3) {
+        fprintf(stderr, "Usage: readindex term [index_name]\n");
+        fprintf(stderr, "\tAssuming there're index_name.ind0, index_name.ind1, and index_name.ind2\n");
+        return -1;
+    }
 
+    char file_name[FILE_NAME_LEN];
+    snprintf(file_name, FILE_NAME_LEN, "%s.ind0", argv[2]);
+    FILE *file_ind0 = fopen(file_name, "rb");
+    if (file_ind0 == NULL) {
+        fprintf(stderr, "%s not exist\n", file_name);
+        return -1;
+    }
+
+    snprintf(file_name, FILE_NAME_LEN, "%s.ind1", argv[2]);
+    FILE *file_ind1 = fopen(file_name, "rb");
+    if (file_ind1 == NULL) {
+        fprintf(stderr, "%s not exist\n", file_name);
+        return -1;
+    }
+
+    snprintf(file_name, FILE_NAME_LEN, "%s.ind2", argv[2]);
+    FILE *file_ind2 = fopen(file_name, "rb");
+    if (file_ind2 == NULL) {
+        fprintf(stderr, "%s not exist\n", file_name);
+        return -1;
+    }
+#if 0
     Level2IndexBlockHeader level2_index_block_header;
     int term_count = 0;
     UrlnoList *urlno_list = new UrlnoList;
@@ -120,6 +148,6 @@ int main(int argc, char **argv)
 
         std::cout << "====================================" << std::endl;
     }
-
+#endif
     return 0;
 }

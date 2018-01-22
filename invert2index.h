@@ -1,17 +1,8 @@
-#ifndef INVERTTOINDEX_H_INCLDED
-#define INVERTTOINDEX_H_INCLUDED
-#include <stdint.h>
+#ifndef INVERTTOINDEX_H
+#define INVERTTOINDEX_H
 #include <map>
 #include <vector>
-
-const int TERM_LEN = 128 * 3;
-const int MAX_OFFSET = 255;
-const int MAX_URL_PER_TERM = 100000;
-
-typedef struct PosOffset {
-    uint16_t pos:2;
-    uint16_t offset:14;
-} PosOffset;
+#include "index.h"
 
 typedef struct Invert {
     uint32_t urlno;
@@ -22,21 +13,6 @@ typedef struct Invert {
 } Invert;
 
 typedef std::map<uint64_t, std::vector<Invert> > InvertIndex;
-
-typedef struct _Level2IndexBlockHeader {
-    uint8_t url_compressed:1;
-    uint8_t weight_attribute_compressed:1;
-    uint8_t count_all_one:1;
-    uint8_t count_compressed:1;
-    uint8_t offset_all_zero:1;
-    uint8_t offset_compressed:1;
-    uint8_t padding:2;
-} Level2IndexBlockHeader;
-
-typedef uint32_t urlno_t;
-typedef uint16_t weight_t;
-typedef uint8_t attribute_t;
-typedef uint8_t count_t;
 
 typedef struct _UrlnoList {
     urlno_t urlno[MAX_URL_PER_TERM];
@@ -66,4 +42,7 @@ const int INVERT_INDEX_UNIT_SIZE = sizeof(Level2IndexBlockHeader)
                                     + sizeof(CountList)
                                     + sizeof(OffsetList);
 
-#endif // INVERTTOINDEX_H_INCLUDED
+typedef std::map<uint64_t, uint32_t> Level2IndexTermOffsetMap;
+typedef std::map<uint64_t, Level1IndexBlockHeader> Level1IndexBlockHeaders;
+
+#endif // INVERTTOINDEX_H
