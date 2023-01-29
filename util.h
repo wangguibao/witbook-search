@@ -1,6 +1,9 @@
-#ifndef UTIL_H
-#define UTIL_H
-#include <stdint.h>
+#pragma once
+
+#include <string>
+#include <vector>
+namespace witbook {
+namespace search {
 /**
  * Generate a utf-8 character, storing it to p
  * The rule is:
@@ -14,4 +17,12 @@ void gen_utf8_char(char *p);
  * Create 64bit sign from a byte string of length len
  */
 uint64_t creat_sign(const char *str, int len);
-#endif
+
+void string_split(
+        const std::string& str,
+        const char delimiter,
+        std::vector<std::string>& ret_vec);
+
+}   // End of namespace search
+}   // End of namespace witbook
+/* vim: set expandtab ts=4 sw=4 sts=4 tw=100: */
