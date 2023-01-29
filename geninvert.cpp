@@ -1,7 +1,20 @@
 /*
  * geninvert.cpp
  * @author Wang Guibao
- * @brief Generates pesudo inverted index records
+ * @brief This is part of WITBOOK Search Project. The goal is to provide a
+ * universal searching utility, with which you can search the Internet for
+ * freely available books by title, author name, year etc.
+ *
+ * This geninvert tool generates invert index records from text databases, like
+ * text files.
+ *
+ * Input is text format, consisting of bellow fields separated by TABs
+ * TITLE    AUTHOR    YEAR    DESCRIPTION    COVER_IMAGE_URL    ONLINE_URL_LIST    DOWNLOAD_URL_LIST
+ *
+ * where
+ * COVER_IMAGE_URL is a book cover image URL
+ * ONLINE_URL_LIST is a list of URLs where you can read the book online
+ * DOWNLOAD_URL_LIST is a list of URLs where you can download the e-book
  */
 #include <iostream>
 #include <fstream>
@@ -46,8 +59,8 @@ int select_utf8_char(std::ifstream &fs, int file_size, char *p, int term_len)
 
 int main(int argc, char **argv)
 {
-    if (argc != 4) {
-        std::cerr << "Usage: geninvert TEXT_FILE RECORD_NUM URL_NUM" << std::endl;
+    if (argc != 2) {
+        std::cerr << "Usage: geninvert TEXT_FILE" << std::endl;
         return -1;
     }
 
@@ -60,25 +73,10 @@ int main(int argc, char **argv)
     int file_size = fs.tellg();
     fs.seekg(0, std::ios::beg);
 
-    int record_num = MAX_RECORD;
-    record_num = atoi(argv[2]);
-    if (record_num <= 0) {
-        record_num = MAX_RECORD;
-    }
-
-    int url_num = atoi(argv[3]);
-    if (url_num <= 0) {
-        url_num = MAX_URL_NUM;
-    }
-
-
-    srand(time(NULL));
-
     int i = 0;
     int j = 0;
-    char record[BUF_LEN];
-    char *p = NULL;
-    for (i = 0; i < record_num; ++i) {
+    std::string line;
+    while (std::getline(fs, line)) {
         p = record;
         *p = '\0';
         // 1. term
@@ -125,4 +123,3 @@ int main(int argc, char **argv)
 
     return 0;
 }
-
