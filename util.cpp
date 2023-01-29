@@ -3,9 +3,11 @@
  * @author Wang Guibao
  * @brief various utilities
  */
-#include <stdlib.h>
+#include <cstdlib>
 #include "util.h"
 
+namespace witbook {
+namespace search {
 void gen_utf8_char(char *p)
 {
     int charcode = rand() % (0x9fa5 - 0x4e00) + 0x4e00;
@@ -23,4 +25,26 @@ uint64_t creat_sign(const char *str, int len) {
     return sign;
 }
 
+void string_split(
+        const std::string& str,
+        const char delimiter,
+        std::vector<std::string>& ret_vec) {
+    ret_vec.clear();
 
+    std::string slice;
+    std::string::size_type spos = 0;
+    std::string::size_type epos = 0;
+
+    while ((epos = str.find(delimiter, spos)) != std::string::npos) {
+        ret_vec.push_back(str.substr(spos, epos);
+        spos = epos + 1;
+    }
+
+    ret_vec.push_back(str.substr(spos));
+
+    return;
+}
+}   // End of namespace search
+}   // End of namespace witbook
+
+/* vim: set expandtab ts=4 sw=4 sts=4 tw=100: */
