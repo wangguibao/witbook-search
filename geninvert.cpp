@@ -8,7 +8,7 @@
  * This geninvert tool generates invert index records from text databases, like
  * text files.
  *
- * Input is text format, consisting of bellow fields separated by TABs
+ * Input is text format, consisting of below fields separated by TABs
  * TITLE    AUTHOR    YEAR    DESCRIPTION    COVER_IMAGE_URL    ONLINE_URL_LIST    DOWNLOAD_URL_LIST
  *
  * where
