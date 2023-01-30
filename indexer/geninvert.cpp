@@ -25,6 +25,8 @@
 #include <stdint.h>
 #include "util.h"
 
+namespace witbook {
+namespace search {
 const int MAX_OFFSET = 5;
 const int MAX_RECORD = 100;
 const int MAX_URL_NUM = 15;
@@ -56,6 +58,10 @@ int select_utf8_char(std::ifstream &fs, int file_size, char *p, int term_len)
 
     return len;
 }
+
+int parse
+}   // End of namespace search
+}   // End of namespace witbook
 
 int main(int argc, char **argv)
 {
@@ -123,3 +129,5 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
+/* vim: set expandtab ts=4 sw=4 sts=4 tw=100: */
