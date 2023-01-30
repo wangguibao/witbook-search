@@ -11,7 +11,7 @@
  * description databases.
  *
  * Input is text format, consisting of below fields separated by TABs
- * TITLE    AUTHOR    YEAR    DESCRIPTION    COUNTRY    COVER_IMAGE_URL    ONLINE_URL_LIST    DOWNLOAD_URL_LIST
+ * TITLE    GENRE    AUTHOR    YEAR    DESCRIPTION    COUNTRY    COVER_IMAGE_URL    ONLINE_URL_LIST    DOWNLOAD_URL_LIST
  *
  * where
  * COVER_IMAGE_URL is a book cover image URL
@@ -20,12 +20,44 @@
  */
 namespace witbook {
 namespace search {
+const int BOOK_INFO_FIELD_NUM = 9;
+
+struct BasicBookInfo{
+    std::string title;
+    std::string genre;
+    std::string author;
+    short year;
+    std::string description;
+    std::string country;
+    std::string cover_img_url;
+    std::string online_url_list;
+    std::string download_url_list;
+};
+
 class BookDBParser : public Parser {
 public:
+    /*
+     * Read input from text file
+     * Each line consists of below fields:
+     *
+     * TITLE
+     * GENRE
+     * AUTHOR
+     * YEAR
+     * DESCRIPTION
+     * COUNTRY
+     * COVER_IMAGE_URL
+     * ONLINE_URL_LIST
+     * DOWNLOAD_URL_LIST
+     */
     virtual int read_input(const std::istream& input);
+
     virtual int parse();
     virtual int write_output(const std::ostream& output);
+private:
+    std::vector<BasicBookInfo> _book_info_vec;
 };
+
 }   // End namespace search
 }   // End namespace witbook
 /* vim: set expandtab ts=4 sw=4 sts=4 tw=100: */

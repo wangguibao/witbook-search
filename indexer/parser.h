@@ -10,8 +10,22 @@ namespace witbook {
 namespace search {
 class Parser {
 public:
+    /*
+     * read_input
+     * @brief read content from input stream
+     */
     virtual int read_input(const std::istream& input) = 0;
+
+    /*
+     * parse
+     * @brief parse and extract HTML elements
+     */
     virtual int parse() = 0;
+
+    /*
+     * write_output
+     * @brief write parsed result
+     */
     virtual int write_output(const std::ostream& output) = 0;
 };
 }   // End namespace search
