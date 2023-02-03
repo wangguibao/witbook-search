@@ -43,9 +43,19 @@ int BookDBParser::read_input(const std::istream& input) {
     }
 }
 
-int BookDBParser::parse() {}
+int BookDBParser::parse() {
+    size_t size = _book_info_vec.size();
+    for (size_t i = 0; i < size; ++i) {
+        WebPage page;
+        page.real_title = _book_info_vec[i].title;
+        _fwd_indexer.consume_one_page(page);
+    }
 
-int BookDBParser::write_output(std::ostream& output) {
+    return 0;
+}
+
+int BookDBParser::write_output(std::ostream& output_stream) {
+    output_stream << _fwd_indexer;
 }
 
 }   // End namespace search

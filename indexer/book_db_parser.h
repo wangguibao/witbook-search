@@ -50,12 +50,13 @@ public:
      * ONLINE_URL_LIST
      * DOWNLOAD_URL_LIST
      */
-    virtual int read_input(const std::istream& input);
+    virtual int read_input(const std::istream& input_stream);
 
     virtual int parse();
-    virtual int write_output(const std::ostream& output);
+    virtual int write_output(const std::ostream& output_stream);
 private:
     std::vector<BasicBookInfo> _book_info_vec;
+    ForwardIndexer _fwd_indexer;
 };
 
 }   // End namespace search

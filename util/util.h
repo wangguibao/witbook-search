@@ -4,6 +4,7 @@
 #include <vector>
 namespace witbook {
 namespace search {
+namespace util {
 /**
  * Generate a utf-8 character, storing it to p
  * The rule is:
@@ -23,6 +24,13 @@ void string_split(
         const char delimiter,
         std::vector<std::string>& ret_vec);
 
-}   // End of namespace search
-}   // End of namespace witbook
+/**
+ * is_ascii
+ * @brief check if a string is of pure ascii characters (code 0 - 127)
+ */
+bool is_ascii(const std::string& str);
+
+}   // End namespace util
+}   // End namespace search
+}   // End namespace witbook
 /* vim: set expandtab ts=4 sw=4 sts=4 tw=100: */

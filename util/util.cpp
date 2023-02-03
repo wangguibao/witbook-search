@@ -8,6 +8,7 @@
 
 namespace witbook {
 namespace search {
+namespace util {
 void gen_utf8_char(char *p)
 {
     int charcode = rand() % (0x9fa5 - 0x4e00) + 0x4e00;
@@ -44,7 +45,15 @@ void string_split(
 
     return;
 }
-}   // End of namespace search
-}   // End of namespace witbook
+
+bool is_ascii(const std::string& str) {
+    return std::all_of(
+            str.begin(),
+            str.end(),
+            [](const char c) {return static_cast<unsigned char>(c) <= 127});
+}
+}   // End namespace util
+}   // End namespace search
+}   // End namespace witbook
 
 /* vim: set expandtab ts=4 sw=4 sts=4 tw=100: */

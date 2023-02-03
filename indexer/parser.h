@@ -14,7 +14,7 @@ public:
      * read_input
      * @brief read content from input stream
      */
-    virtual int read_input(const std::istream& input) = 0;
+    virtual int read_input(const std::istream& input_stream) = 0;
 
     /*
      * parse
@@ -26,7 +26,7 @@ public:
      * write_output
      * @brief write parsed result
      */
-    virtual int write_output(const std::ostream& output) = 0;
+    virtual int write_output(const std::ostream& output_stream) = 0;
 };
 }   // End namespace search
 }   // End namespace witbook
